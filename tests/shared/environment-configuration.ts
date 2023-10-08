@@ -1,5 +1,5 @@
 export class Config {
-    baseUrl: string = 'http://backoffice-systemtest.andalusiagroup.net:8090/';
-    loginUser: string = 'phy';
+    baseUrl: string = 'http://backoffice-prelive.andalusiagroup.net:8090/';
+    loginUser: string = 'emp';
     loginPassword: string = '123456'
 }
