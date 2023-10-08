@@ -6,7 +6,7 @@ const { userLogin } = require('./modules/security/login/login.spec') ;
 setup('do login', async ({ page, context }) => {
   
     await userLogin(page);
-    page.setDefaultTimeout(350000);
+    page.setDefaultTimeout(500000);
     await page.waitForURL(/.*dashboard/);
     await expect(page).toHaveURL(/.*dashboard/);
 

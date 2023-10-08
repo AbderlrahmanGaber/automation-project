@@ -1,6 +1,7 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { CreateNewPatient } from "@tests/modules/medical-records/shared/Create-New-patient/POM/Create-new-patient-page";
-import {EditinsuranceDetails} from "@tests/modules/visit-management/POM/insurance-details.page";
+import { CreateNewPatient } from "@tests/modules/medical-records/shared/Create-New-patient/Create-new-patient-page";
+import { EditinsuranceDetails } from "@tests/modules/visit-management/POM/insurance-details.page";
+import { Add_Service } from "./Add-service-page";
 
 
 
@@ -19,8 +20,11 @@ export class NewVisit {
     readonly selectpatient: Locator;
     readonly capturepartient_btn: Locator;
     readonly change_t0_insured_btn: Locator;
-    readonly Edit_insurance_details_btn:Locator;
+    readonly Edit_insurance_details_btn: Locator;
     readonly createvisitBTn: Locator;
+    readonly addservicebtn: Locator;
+    readonly ER_Visits_tab: Locator;
+    readonly select_Visit: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -33,11 +37,15 @@ export class NewVisit {
         this.searchicon = page.getByRole('button', { name: '' })
         this.selectpatient = page.locator('.gender').first();
         this.capturepartient_btn = page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Capture Patient' });
-        this.change_t0_insured_btn=page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Change To Insured' });
-        this.Edit_insurance_details_btn=page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Edit Insurance Details' });
+        this.change_t0_insured_btn = page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Change To Insured' });
+        this.Edit_insurance_details_btn = page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Edit Insurance Details' });
         this.createvisitBTn = page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Create Visit & Confirm Arrival' });
+        this.addservicebtn = page.frameLocator('#right-panel iframe').getByRole('button', { name: ' Service' });
+        this.ER_Visits_tab = page.frameLocator('#right-panel iframe').getByRole('button', { name: 'ER Visits' });
+        this.select_Visit = page.frameLocator('#right-panel iframe').locator('#listItem_21588751').getByText('ahmed mohamed ahmed aabed');
+
     }
-   
+
     async Nav_to_VM(VMUrl: string) {
         await this.page.goto(VMUrl)
     }
@@ -75,7 +83,7 @@ export class NewVisit {
         await this.capturepartient_btn.click();
         //  Assert patient captured successfully 
         await expect(this.createvisitBTn).toBeVisible();
-        
+
     }
 
     async create_visit_confirm_arrival() {
@@ -93,7 +101,28 @@ export class NewVisit {
 
         await expect(insuranceDetails.Addinsurancecard).toBeVisible();
 
-        
+
+
+    }
+
+    async select_exist_ER_Vist() {
+
+
+        await this.ER_Visits_tab.click();
+        await this.select_Visit.click();
+
+    }
+
+
+    async click_addService() {
+
+        const addService = new Add_Service(this.page);
+
+        await this.addservicebtn.click();
+
+        // Assert on Displaying Add service pop-up 
+
+        await expect(addService.popupTitle).toBeVisible();
 
     }
 
